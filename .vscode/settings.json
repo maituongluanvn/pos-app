@@ -18,7 +18,7 @@
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "[typescript][javascript][json][jsonc][typescriptreact][javascriptreact][html]": {
     "editor.codeActionsOnSave": {
-      "source.sortImports": true
+      "source.sortImports": "explicit"
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }

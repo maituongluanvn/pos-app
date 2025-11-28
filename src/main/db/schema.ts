@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { hash } from "./auth.js";
 
 export const products = sqliteTable("products", {
   sku: text("sku").primaryKey().notNull(),
@@ -50,4 +51,14 @@ export function createDb(path: string) {
       PRIMARY KEY (sku)
     )
   `);
+}
+
+export async function insertUser(path: string){
+  const sqlite = new Database(path);
+  const db = drizzle(sqlite);
+
+  const password = await hash('123');
+  const user: NewUser = { username: 'admin', password: password };
+
+  await db.insert(users).values({ ...user });
 }
