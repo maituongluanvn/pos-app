@@ -1,6 +1,7 @@
 import { ProductCard } from "@renderer/components/ProductCard.js";
 import { Prompt } from "@renderer/components/Prompt.js";
 import { Screen } from "@renderer/components/Screen.js";
+import { useCategoriesContext } from "@renderer/contexts/CategoryContext.js";
 import { useModalContext } from "@renderer/contexts/ModalContext.js";
 import { useProductFormBasisContext } from "@renderer/contexts/ProductFormBasisContext.js";
 import {
@@ -101,7 +102,7 @@ function NameInput() {
 
 function CategoryInput() {
   const { category, reflectCategory } = useProductFormContext();
-  const { categories } = useProductsContext();
+  const { categories } = useCategoriesContext();
 
   return (
     <label className={`${cls$label$inline} col-span-2`}>
@@ -117,8 +118,8 @@ function CategoryInput() {
           Select a category:
         </option>
         {categories.map((category) => (
-          <option key={category} value={category} className={cls$option}>
-            {category}
+          <option key={category.name} value={category.name} className={cls$option}>
+            {category.name}
           </option>
         ))}
       </select>
