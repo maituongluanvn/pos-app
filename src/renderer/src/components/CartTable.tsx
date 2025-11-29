@@ -1,31 +1,8 @@
+import { Table } from "@radix-ui/themes";
 import { useCartContext } from "@renderer/contexts/CartContext.js";
 import { Product } from "@renderer/contexts/ProductsContext.js";
 import { formatPrice } from "@renderer/utils.js";
-import { C } from "@renderer/utils/classes.js";
 import { raise, sum } from "@renderer/utils/stdlib-ext.js";
-
-function RowBreak() {
-  return (
-    <tr>
-      <td>
-        <br />
-      </td>
-    </tr>
-  );
-}
-
-function TableRow(props: { cells: Array<string | number> }) {
-  const { cells } = props;
-
-  return (
-    <tr>
-      <td>{cells[0]}</td>
-      <td>{cells[1]}</td>
-      <td>{cells[2]}</td>
-      <td>{cells[3]}</td>
-    </tr>
-  );
-}
 
 function TableEntry(props: { product: Product }) {
   const { product } = props;
@@ -37,12 +14,15 @@ function TableEntry(props: { product: Product }) {
 
   return (
     <>
-      <tr>
-        <td colSpan={4} className="normal-case">
-          {name}
-        </td>
-      </tr>
-      <TableRow cells={["", qty, formatPrice(price), formatPrice(subtotal)]} />
+      <Table.Cell colSpan={4} className="font-normal">
+        {name}
+      </Table.Cell>
+      <Table.Row className="mb-2">
+        <Table.Cell></Table.Cell>
+        <Table.Cell>{qty}</Table.Cell>
+        <Table.Cell>{formatPrice(price)}</Table.Cell>
+        <Table.Cell>{formatPrice(subtotal)}</Table.Cell>
+      </Table.Row>
     </>
   );
 }
@@ -59,48 +39,50 @@ export function CartTable() {
   const cash = payment ?? totalCartPrice;
   const change = cash - totalCartPrice;
 
-  const cls$column$alignment = C(
-    "[&_td:nth-child(1)]:text-left",
-    "[&_td:nth-child(2)]:text-center",
-    "[&_td:nth-child(3)]:text-left",
-    "[&_td:nth-child(4)]:text-right",
-  );
-  const cls = C("w-full", cls$column$alignment);
   return (
-    <table className={cls}>
-      <colgroup>
-        <col span={1} className="w-[calc(4/12*100%)]" />
-        <col span={1} className="w-[calc(2/12*100%)]" />
-        <col span={1} className="w-[calc(3/12*100%)]" />
-        <col span={1} className="w-[calc(3/12*100%)]" />
-      </colgroup>
-      <thead>
-        {/* TODO Use `<th>` instead? */}
-        <TableRow cells={["Item", "Qty.", "Price", "Subtotal"]} />
-      </thead>
-      <tbody>
-        {products.map((product) => (
-          <TableEntry key={product.sku} product={product} />
-        ))}
-
-        <RowBreak />
-        <tr>
-          <td colSpan={4}>
-            <hr className="border-t-2 border-black border-dashed" />
-          </td>
-        </tr>
-        <RowBreak />
-
-        <TableRow
-          cells={["Total", totalQty, "", formatPrice(totalCartPrice)]}
-        />
-        {payment !== null && (
-          <TableRow cells={["Cash", "", "", formatPrice(cash)]} />
-        )}
-        {payment !== null && (
-          <TableRow cells={["Change", "", "", formatPrice(change)]} />
-        )}
-      </tbody>
-    </table>
+    <div className="w-full" style={{ width: '100%' }}>
+      <Table.Root className="w-full" style={{ width: '100%' }}>
+        <Table.Header className="w-full">
+          <Table.Row>
+            <Table.ColumnHeaderCell>Item</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Qty.</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Subtotal</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body className="w-full">
+          {products.map((product) => (
+            <TableEntry key={product.sku} product={product} />
+          ))}
+          <Table.Row className="mb-2">
+            <Table.Cell colSpan={4}>
+              <hr className="border-t-2 border-gray-400 border-dashed my-2" />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row className="mb-2">
+            <Table.Cell>Total</Table.Cell>
+            <Table.Cell>{totalQty}</Table.Cell>
+            <Table.Cell></Table.Cell>
+            <Table.Cell>{formatPrice(totalCartPrice)}</Table.Cell>
+          </Table.Row>
+          {payment !== null && (
+            <Table.Row className="mb-2">
+              <Table.Cell>Cash</Table.Cell>
+              <Table.Cell></Table.Cell>
+              <Table.Cell></Table.Cell>
+              <Table.Cell>{formatPrice(cash)}</Table.Cell>
+            </Table.Row>
+          )}
+          {payment !== null && (
+            <Table.Row className="mb-2">
+              <Table.Cell>Change</Table.Cell>
+              <Table.Cell></Table.Cell>
+              <Table.Cell></Table.Cell>
+              <Table.Cell>{formatPrice(change)}</Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table.Root>
+    </div>
   );
 }

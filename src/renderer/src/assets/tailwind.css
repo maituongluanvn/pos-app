@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.rt-TableRootTable {
+  width: 100% !important;
+}
+
+.rt-TableRoot {
+  width: 100% !important;
+}
