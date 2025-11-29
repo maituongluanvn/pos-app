@@ -25,6 +25,7 @@
     "@electron-toolkit/utils": "^2.0.0",
     "argon2": "^0.31.1",
     "better-sqlite3": "^9.0.0",
+    "currency.js": "^2.0.4",
     "drizzle-orm": "^0.28.6"
   },
   "devDependencies": {
