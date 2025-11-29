@@ -4,6 +4,11 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { hash } from "./auth.js";
 
+export const categories = sqliteTable("categories", {
+  name: text("name").primaryKey().notNull(),
+  description: text("description"),
+});
+
 export const products = sqliteTable("products", {
   sku: text("sku").primaryKey().notNull(),
   category: text("category").notNull(),
@@ -13,13 +18,18 @@ export const products = sqliteTable("products", {
   stock: integer("stock").notNull(),
   url: text("url"),
 });
-export type Product = typeof products.$inferSelect;
-export type NewProduct = typeof products.$inferInsert;
 
 export const users = sqliteTable("users", {
   username: text("username").primaryKey().notNull(),
   password: text("password").notNull(),
 });
+
+export type Product = typeof products.$inferSelect;
+export type NewProduct = typeof products.$inferInsert;
+
+export type Category = typeof categories.$inferSelect;
+export type NewCategory = typeof categories.$inferInsert;
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
@@ -39,6 +49,15 @@ export function createDb(path: string) {
       PRIMARY KEY (username)
     )
   `);
+
+  db.run(sql`
+    CREATE TABLE categories (
+      name TEXT NOT NULL,
+      description TEXT,
+      PRIMARY KEY (name)
+    )
+  `);
+
   db.run(sql`
     CREATE TABLE products (
       sku TEXT NOT NULL,

@@ -4,11 +4,13 @@ import { ProductFormBasisProvider } from "./contexts/ProductFormBasisContext.js"
 import { ProductsProvider } from "./contexts/ProductsContext.js";
 import { ScreenProvider, useScreenContext } from "./contexts/ScreenContext.js";
 import { UserProvider } from "./contexts/UserContext.js";
+import { CategoryFormScreen } from "./views/CategoryFormScreen.js";
 import { FeaturesScreen } from "./views/FeaturesScreen.js";
 import { IMScreen } from "./views/IMScreen.js";
 import { LoginScreen } from "./views/LoginScreen.js";
 import { POSScreen } from "./views/POSScreen.js";
 import { ProductFormScreen } from "./views/ProductFormScreen.js";
+
 
 function WrappedApp() {
   const { screen } = useScreenContext();
@@ -29,6 +31,9 @@ function WrappedApp() {
     }
     case "product-form": {
       return <ProductFormScreen />;
+    }
+    case "new-category-form": {
+      return <CategoryFormScreen />;
     }
   }
   screen satisfies never; // MUST be unreachable; something's wrong if it isn't (switch case not exhaustive)

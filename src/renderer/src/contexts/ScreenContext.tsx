@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createNewContext } from "./utils.js";
 
-type Screen = "login" | "feature-select" | "pos" | "inv-mgmt" | "product-form";
+type Screen = "login" | "feature-select" | "pos" | "inv-mgmt" | "product-form" | "new-category-form";
 function useScreen() {
   const [screen, setScreen] = useState<Screen>("login");
   function changeScreen(to: Screen) {

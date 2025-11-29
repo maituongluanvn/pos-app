@@ -1,5 +1,12 @@
 import { IpcMainInvokeEvent, app, ipcMain, nativeTheme } from "electron";
 import {
+  addCategory,
+  deleteCategory,
+  editCategory,
+  getAllCategories,
+  isCategoryExisting,
+} from "./db/categories.js";
+import {
   addProduct,
   deleteProduct,
   editProduct,
@@ -82,6 +89,33 @@ const ChannelHandlers = {
         ...args: Parameters<typeof isSKUExisting>
       ) => {
         return await isSKUExisting(...args);
+      },
+      "db:getAllCategories": async () => {
+        return await getAllCategories();
+      },
+      "db:addCategory": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof addCategory>
+      ) => {
+        return await addCategory(...args);
+      },
+      "db:deleteCategory": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof deleteCategory>
+      ) => {
+        await deleteCategory(...args);
+      },
+      "db:editCategory": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof editCategory>
+      ) => {
+        await editCategory(...args);
+      },
+      "db:isCategoryExisting": async (
+        _: IpcMainInvokeEvent,
+        ...args: Parameters<typeof isCategoryExisting>
+      ) => {
+        return await isCategoryExisting(...args);
       },
     },
   },

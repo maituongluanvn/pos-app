@@ -119,6 +119,11 @@ function Actions() {
     changeScreen("product-form");
   }
 
+  function newCategory() {
+    changeProduct(null);
+    changeScreen("new-category-form");
+  }
+
   return (
     <form className="h-full flex flex-col gap-6 text-sm">
       <section className="grid gap-3">
@@ -143,9 +148,14 @@ function Actions() {
         />
       </section>
       <section className="mt-auto sticky bottom-0 grid">
-        <button type="button" className={cls$button$new} onClick={newProduct}>
-          New Product
-        </button>
+        <div className="grid gap-3">
+          <button type="button" className={cls$button$new} onClick={newProduct}>
+            New Product
+          </button>
+            <button type="button" className={C(cls$button$new, "bg-yellow-500 hover:bg-yellow-600")} onClick={newCategory}>
+            New Category
+            </button>
+        </div>
       </section>
     </form>
   );
