@@ -28,7 +28,7 @@ export function ProductCard(props: { product: Product }) {
       </div>
       <div className="w-full h-full">
         <p className="text-xs tracking-widest text-right font-bold">
-          ${formatPrice(price)}
+          {formatPrice(price)}
         </p>
       </div>
     </section>

@@ -2,7 +2,7 @@ import currency from "currency.js";
 import { Dispatch, SetStateAction, useRef } from "react";
 
 export function formatPrice(price: number): string {
-  return currency(price).toString();
+  return currency(price).format();
 }
 
 export function useNewRef<T>() {
