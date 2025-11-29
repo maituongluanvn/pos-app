@@ -1,12 +1,8 @@
+import currency from "currency.js";
 import { Dispatch, SetStateAction, useRef } from "react";
 
-const PriceFormatter = Intl.NumberFormat(undefined, {
-  style: "currency",
-  currency: "PHP",
-  notation: "standard",
-});
-export function formatPrice(price: number) {
-  return PriceFormatter.format(price);
+export function formatPrice(price: number): string {
+  return currency(price).toString();
 }
 
 export function useNewRef<T>() {

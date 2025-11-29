@@ -27,13 +27,14 @@ const cls$button$commit = C(
 function QuantityCounter(props: { product: Product; state?: State<number> }) {
   const { product, state } = props;
   const [qty, setQty] = state ?? useState(0);
-  const { sku, stock } = product;
+  const { sku } = product;
   const { cart, addToCart } = useCartContext();
   const { closeModal } = useModalContext();
 
   const currentQty = cart.get(sku) ?? 0;
   const min = currentQty * -1;
-  const max = stock - currentQty;
+  // const max = stock - currentQty;
+  const max = 1000000;
 
   function decrement() {
     setQty(Math.max(min, qty - 1));

@@ -5,11 +5,11 @@ import { C } from "@renderer/utils/classes.js";
 
 export function ProductCard(props: { product: Product }) {
   const { product } = props;
-  const { sku, name, category, price } = product;
+  const { name, category, price } = product;
   const { screen } = useScreenContext();
 
-  const imgUrl = `pos-app:///data/images/${sku}.png`;
-  const imgAlt = `Image of product "${name}"`;
+  // const imgUrl = `pos-app:///data/images/${sku}.png`;
+  // const imgAlt = `Image of product "${name}"`;
 
   const cls = C(
     "grid gap-4",
@@ -19,7 +19,7 @@ export function ProductCard(props: { product: Product }) {
   );
   return (
     <section className={cls}>
-      <img src={imgUrl} alt={imgAlt} />
+      {/* {imgUrl &&<img src={imgUrl} alt={imgAlt} />} */}
       <div className="grid gap-1 auto-rows-min">
         <h2 className="text-lg font-head leading-tight">{name}</h2>
         <p className="text-xs uppercase tracking-widest opacity-80 dark:opacity-50">
@@ -28,7 +28,7 @@ export function ProductCard(props: { product: Product }) {
       </div>
       <div className="w-full h-full">
         <p className="text-xs tracking-widest text-right font-bold">
-          {formatPrice(price)}
+          ${formatPrice(price)}
         </p>
       </div>
     </section>
