@@ -112,7 +112,7 @@ function Actions() {
   const state = useDisplayProductsContext();
   const { sortOrders, sortOrder, setSortOrder } = state;
   const { sortKeys, sortKey, setSortKey } = state;
-  const { categories, category, setCategory } = state;
+  const { categories } = state;
 
   function newProduct() {
     changeProduct(null);
@@ -121,7 +121,7 @@ function Actions() {
 
   function newCategory() {
     changeProduct(null);
-    changeScreen("new-category-form");
+    changeScreen("category-form");
   }
 
   return (
@@ -143,8 +143,7 @@ function Actions() {
         <header className="font-head text-2xl">Categories:</header>
         <CheckboxButtonFieldset
           className="flex flex-wrap gap-3"
-          values={categories}
-          state={[category, setCategory]}
+          values={categories.map(category => category.name)}
         />
       </section>
       <section className="mt-auto sticky bottom-0 grid">

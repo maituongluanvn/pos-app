@@ -1,7 +1,7 @@
 // import { ProductCard } from "@renderer/components/ProductCard.js";
 import { Prompt } from "@renderer/components/Prompt.js";
 import { Screen } from "@renderer/components/Screen.js";
-import { useCategoryFormBasisContext } from "@renderer/contexts/CategoryFormBasisContext.js";
+import { CategoryFormBasisProvider, useCategoryFormBasisContext } from "@renderer/contexts/CategoryFormBasisContext.js";
 import {
   CategoryFormProvider,
   useCategoryFormContext,
@@ -71,7 +71,6 @@ function DescriptionTextArea() {
         name="description"
         value={description}
         onChange={reflectDescription}
-        required
       ></textarea>
     </label>
   );
@@ -196,10 +195,12 @@ function Form() {
 
 export function CategoryFormScreen() {
   return (
-    <CategoryFormProvider>
-      <Screen withLogoutButton withFeaturesButton withInventoryManagementButton>
-        <Form />
-      </Screen>
-    </CategoryFormProvider>
+    <CategoryFormBasisProvider>
+      <CategoryFormProvider>
+        <Screen withLogoutButton withFeaturesButton withInventoryManagementButton>
+          <Form />
+        </Screen>
+      </CategoryFormProvider>
+    </CategoryFormBasisProvider>
   );
 }

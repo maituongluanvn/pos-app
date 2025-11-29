@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useCategoriesContext } from "./CategoryContext.js";
 import { useProductsContext } from "./ProductsContext.js";
 import { createNewContext } from "./utils.js";
 
 /** Passthrough for all products */
 function useDisplayProducts() {
-  const { products: allProducts, categories } = useProductsContext();
+  const { products: allProducts } = useProductsContext();
+  const { categories } = useCategoriesContext();
   let products = [...allProducts];
 
   const sortOrders = ["Ascending", "Descending"] as const;
@@ -14,9 +16,6 @@ function useDisplayProducts() {
   const sortKeys = ["SKU", "Name", "Price", "Category"] as const;
   type SortKey = (typeof sortKeys)[number];
   const [sortKey, setSortKey] = useState<SortKey>("Category");
-
-  type Category = (typeof categories)[number];
-  const [category, setCategory] = useState<Set<Category>>(new Set());
 
   /* Always sort ascending first */
   /* TODO Skip sorting if key is not changed? */
@@ -35,16 +34,11 @@ function useDisplayProducts() {
     products = products.reverse();
   }
 
-  /* Only filter if category selection is not empty */
-  if (category.size !== 0) {
-    products = products.filter((product) => category.has(product.category));
-  }
-
   return {
     products,
+    categories,
     ...{ sortOrders, sortOrder, setSortOrder },
     ...{ sortKeys, sortKey, setSortKey },
-    ...{ categories, category, setCategory },
   };
 }
 

@@ -21,12 +21,7 @@ function useProducts() {
     productMap.set(product.sku, product);
   }
 
-  /* TODO Extract these from database? */
-  const categories = Array.from(
-    new Set(products.map(({ category }) => category)),
-  );
-
-  return { ...{ products, productMap, reflectProducts }, categories };
+  return { ...{ products, productMap, reflectProducts } };
 }
 
 export const [useProductsContext, ProductsProvider] =

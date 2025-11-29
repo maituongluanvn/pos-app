@@ -1,3 +1,4 @@
+import { CategoriesProvider } from "./contexts/CategoryContext.js";
 import { DarkModeProvider } from "./contexts/DarkModeContext.js";
 import { LabelsProvider } from "./contexts/LabelsContext.js";
 import { ProductFormBasisProvider } from "./contexts/ProductFormBasisContext.js";
@@ -32,7 +33,7 @@ function WrappedApp() {
     case "product-form": {
       return <ProductFormScreen />;
     }
-    case "new-category-form": {
+    case "category-form": {
       return <CategoryFormScreen />;
     }
   }
@@ -43,16 +44,18 @@ export function App() {
   return (
     <LabelsProvider>
       <ProductsProvider>
-        <DarkModeProvider>
-          {/* ↑ Touches file system | ↓ App only */}
-          <UserProvider>
-            <ProductFormBasisProvider>
-              <ScreenProvider>
-                <WrappedApp />
-              </ScreenProvider>
-            </ProductFormBasisProvider>
-          </UserProvider>
-        </DarkModeProvider>
+        <CategoriesProvider>
+          <DarkModeProvider>
+            {/* ↑ Touches file system | ↓ App only */}
+            <UserProvider>
+              <ProductFormBasisProvider>
+                <ScreenProvider>
+                  <WrappedApp />
+                </ScreenProvider>
+              </ProductFormBasisProvider>
+            </UserProvider>
+          </DarkModeProvider>
+        </CategoriesProvider>
       </ProductsProvider>
     </LabelsProvider>
   );
