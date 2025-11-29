@@ -1,21 +1,8 @@
+import { Button } from "@radix-ui/themes";
 import { Product } from "@renderer/contexts/ProductsContext.js";
-import {
-  C,
-  cls$card,
-  cls$interactiveHoverBg,
-  cls$scrollbar,
-} from "@renderer/utils/classes.js";
 import { ComponentProps } from "react";
 import { ProductCard } from "./ProductCard.js";
 
-const cls$button = C(
-  "w-full text-left",
-  "px-3 py-2",
-  cls$card,
-  cls$interactiveHoverBg,
-  "active:scale-[.98]",
-  "transition",
-);
 function ProductButton(props: {
   product: Product;
   onClick: ComponentProps<"button">["onClick"];
@@ -23,33 +10,41 @@ function ProductButton(props: {
   const { product, onClick } = props;
 
   return (
-    <button className={cls$button} onClick={onClick}>
+    <Button onClick={onClick}>
       <ProductCard product={product} />
-    </button>
+    </Button>
   );
 }
 
-const cls$list = C(
-  ...[cls$scrollbar, "p-3 pt-0"],
-  "grid auto-rows-min gap-3",
-  "select-none",
-);
 export function ProductList(props: {
   products: Product[];
   onItemClick: (product: Product) => void;
 }) {
   const { products, onItemClick } = props;
+  const categories = [...new Set(products.map(product => product.category))];
 
   return (
-    <ol className={cls$list}>
+    <div className="space-y-6">
+      <section className="grid gap-3">
+      <header className="font-head text-2xl">Categories:</header>
+      <div className="flex flex-row gap-2 flex-wrap">
+        {categories.map((category) => (
+        <Button key={category} className="min-w-[180px] border">
+          {category}
+        </Button>
+        ))}
+      </div>
+      </section>
+      <div className="grid grid-cols-4 gap-4">
       {products.map((product) => (
-        <li key={product.sku}>
-          <ProductButton
-            product={product}
-            onClick={() => onItemClick(product)}
-          />
-        </li>
+        <div key={product.sku} className="border rounded-lg p-2">
+        <ProductButton
+          product={product}
+          onClick={() => onItemClick(product)}
+        />
+        </div>
       ))}
-    </ol>
+      </div>
+    </div>
   );
 }
