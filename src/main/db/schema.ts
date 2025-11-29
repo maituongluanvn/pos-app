@@ -1,8 +1,7 @@
 import Database from "better-sqlite3";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import { float } from "drizzle-orm/mysql-core/index.js";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { hash } from "./auth.js";
 
 export const categories = sqliteTable("categories", {
@@ -15,9 +14,8 @@ export const products = sqliteTable("products", {
   category: text("category").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  price: float("price").notNull(),
-  // stock: integer("stock").notNull(),
-  // url: text("url"),
+  price: real("price").notNull(),
+  url: text("url"),
 });
 
 export const users = sqliteTable("users", {
