@@ -1,7 +1,9 @@
 import { sleep } from "@renderer/utils/stdlib-ext.js";
+import currency from "currency.js";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useProductFormBasisContext } from "./ProductFormBasisContext.js";
 import { createNewContext } from "./utils.js";
+
 
 const { ipcInvoke } = window.api;
 
@@ -32,6 +34,25 @@ function useNumber(initial = 0) {
 
   return [number, setNumber, reflectNumber] as const;
 }
+
+function useCurrency(initial = "0") {
+  const [amount, setAmount] = useState(currency(initial));
+  function reflectCurrency(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const value = input.value;
+    try {
+      const newAmount = currency(value || 0);
+      setAmount(newAmount);
+      input.setCustomValidity("");
+    } catch (error) {
+      setAmount(currency(0));
+      input.setCustomValidity("");
+    }
+  }
+
+  return [amount, setAmount, reflectCurrency] as const;
+}
+
 
 function useFile() {
   const [file, setFile] = useState<File | null>(null);
@@ -78,7 +99,7 @@ function useProductForm() {
   const [sku, setSku, reflectSku] = useString();
   const [name, setName, reflectName] = useString();
   const [category, setCategory, reflectCategory] = useString();
-  const [price, setPrice, reflectPrice] = useNumber();
+  const [price, setPrice, reflectPrice] = useCurrency();
   const [stock, setStock, reflectStock] = useNumber();
   const [description, setDescription, reflectDescription] = useString();
   const { file, setFile, reflectFile } = useFile();
@@ -96,13 +117,13 @@ function useProductForm() {
   const { product } = useProductFormBasisContext();
   useEffect(() => {
     if (product === null) return;
-    const { sku, name, category, price, stock, description } = product;
+    const { sku, name, category, price, description } = product;
     setSku(sku);
     setName(name);
     setCategory(category);
-    setPrice(price);
+    setPrice(currency(price));
     setStock(stock);
-    setDescription(description);
+    setDescription(description || "");
 
     async function setupFile() {
       const filename = `${sku}.png`;

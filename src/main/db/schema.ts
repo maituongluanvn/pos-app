@@ -13,7 +13,7 @@ export const products = sqliteTable("products", {
   sku: text("sku").primaryKey().notNull(),
   category: text("category").notNull(),
   name: text("name").notNull(),
-  description: text("description").notNull(),
+  description: text("description"),
   price: real("price").notNull(),
   url: text("url"),
 });

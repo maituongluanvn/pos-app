@@ -130,14 +130,15 @@ function CategoryInput() {
 function PriceInput() {
   const { price, reflectPrice } = useProductFormContext();
 
+
   return (
     <label className={cls$label$inline}>
       <span className="font-bold">Price</span>
       <input
-        type="number"
+        type="text"
         className={cls$input}
         name="price"
-        value={price}
+        value={String(price)}
         onChange={reflectPrice}
         required
       />
@@ -174,7 +175,6 @@ function DescriptionTextArea() {
         name="description"
         value={description}
         onChange={reflectDescription}
-        required
       ></textarea>
     </label>
   );
@@ -322,7 +322,7 @@ const cls$form = C(
 );
 function Form() {
   const values = useProductFormContext();
-  const { sku, name, category, price, stock, description } = values;
+  const { sku, name, category, price, description } = values;
   const { moveFileToImagesAsSku } = values;
   const { changeScreen } = useScreenContext();
   const { reflectProducts } = useProductsContext();
@@ -340,7 +340,7 @@ function Form() {
     if (product !== null) saveEdit();
   }
   async function saveNew() {
-    const product = { name, description, sku, category, price, stock };
+    const product = { name, description, sku, category, price: Number(price) };
     await ipcInvoke("db:addProduct", product);
     changeScreen("inv-mgmt");
     await reflectProducts();
@@ -348,7 +348,7 @@ function Form() {
   }
   async function saveEdit() {
     const url = product?.url ?? null;
-    const edited = { name, description, sku, category, price, stock, url };
+    const edited = { name, description, sku, category, price: Number(price), url };
     await ipcInvoke("db:editProduct", edited);
     changeScreen("inv-mgmt");
     await reflectProducts();
