@@ -11,6 +11,7 @@ import {
   cls$scrollbar,
 } from "@renderer/utils/classes.js";
 import { ChangeEvent, useEffect, useState } from "react";
+import { print80mm } from "./Print80mm";
 import { Prompt } from "./Prompt.js";
 
 const cls$button$no = C("px-4 py-1", cls$button$secondary, "transition");
@@ -67,6 +68,11 @@ function CheckoutPrompt() {
     setAmount(Number.isNaN(newAmount) ? 0 : newAmount);
   }
 
+  function checkoutAndPrintOrder() {
+    setAmount(totalCartPrice);
+    print80mm();
+  }
+
   function setExactAmount() {
     setAmount(totalCartPrice);
   }
@@ -99,6 +105,10 @@ function CheckoutPrompt() {
           onClick={checkout}
         >
           Confirm
+        </button>
+        <button type="button" className={cls$basePay} onClick={checkoutAndPrintOrder}>
+          Checkout & print order{" "}
+          <span className="font-bold">{formatPrice(totalCartPrice)}</span>
         </button>
         <button type="button" className={cls$basePay} onClick={setExactAmount}>
           Use exact{" "}
